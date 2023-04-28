@@ -1,0 +1,116 @@
+*,
+*::after,
+::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: Title-Font;
+  src: url("./Vandalust.ttf");
+}
+
+body {
+  background-image: url("./image/background.jpg");
+  background-color: rgba(174, 212, 230, 23);
+  background-blend-mode: overlay;
+}
+
+.container {
+  background-color: #EFEA5A;
+  width: 100%;
+  height: 1080px;
+  padding: 10px;
+  margin: 15px;
+  margin-top: 8%;
+}
+
+.title {
+  margin: 25px;
+  /* padding: 25px; */
+  width: 65%;
+  height: 9%;
+  position: absolute;
+  background-color: #1AC8ED;
+  box-shadow: 10px 5px 5px red;
+
+  text-align: center;
+  font-family: Title-Font;
+  letter-spacing: 10px;
+  color: #E71D36;
+  text-shadow: 2px 2px #000000;
+
+}
+
+header li {
+  list-style: none;
+  display: inline-block;
+  padding: 20px 0 20px 0;
+}
+
+header a {
+  text-decoration: none;
+  color: #555;
+  transition: all 0.3s ease 0s;
+  padding: 5px 20px 5px 20px;
+  margin: 0 10px 0 10px;
+
+  font-size: 15px;
+  font-family: sans-serif;
+  font-weight: bold;
+
+  background-color: #EFEA5A;
+}
+
+header a:hover {
+  color: #E71D36;
+}
+
+
+.filter-box {
+  background-color: #16DB93;
+  height: 600px;
+}
+
+.search-bar-section {
+  margin: 15px;
+  padding: 15px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 25%;
+}
+
+.events-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+
+  height: 75%;
+
+}
+
+.type-of-events-sections {
+  margin: 15px;
+  align-self: right;
+  text-align: right;
+}
+
+
+.events-map-section {
+  width: 800px;
+  height: 600px;
+  text-align: center;
+  background-color: whitesmoke;
+
+  border: 5px solid #E71D36;
+  box-shadow: 10px 5px -5px red;
+
+}
+
+.card {
+  background-color: white;
+  padding: 10px;
+}
