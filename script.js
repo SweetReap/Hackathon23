@@ -31,48 +31,42 @@ async function getZip() {
 }
 
 
-
 // Get a reference to the results div
 const resultsDiv = document.getElementById('results');
 
  function showCard(data){
 
-       // Create a card element
-    const card = document.createElement('div');
-    card.classList.add('card');
-
    // Create a list element to hold our cards
-    // const cardList = document.createElement('ul');
-    // cardList.classList.add('card-list');
+    const cardList = document.createElement('ul');
+    cardList.classList.add('card-list');
 
     // // Loop through the data and create a card for each item
-    // data.forEach((item) => {
-    //   // Create a card element
-    //   const card = document.createElement('li');
-    //    card.classList.add('card');
- // })
+     data.forEach((item) => {
+      // Create a card element
+      const card = document.createElement('li');
+       card.classList.add('card');
+ 
     // Build card HTML
     const cardHTML = `
-      <h2>${data[1].name}</h2>
-      <p>${data[1].tel}</p>
-      <p>${data[1].address1}</p>
+      <h2>${item.name}</h2>
+      <p>${item.tel}</p>
+      <p>${item.address1}</p>
     `;
-   console.log(data[1].name);
-   
+       
     // Update card content
     card.innerHTML = cardHTML
-      console.log()
-   // Add the card to the results div
+     // Add the card to the list
+   cardList.appendChild(card);
+  });
+     // console.log()
+   // Add the card to the results div 
+    resultsDiv.appendChild(cardList);
  
-    resultsDiv.appendChild(card);
-   
   // .catch(error => console.error(error));
    
 }
 
-
 // run script that will showcase map
-
 
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
