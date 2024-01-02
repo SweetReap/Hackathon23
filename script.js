@@ -1,4 +1,3 @@
-
 let map;
 let markers = [];
 let res = null;
@@ -7,18 +6,70 @@ let data = [];
 async function getData(){
   try {
   // fetch data about NYC art galleries 
-  res = await fetch('https://data.cityofnewyork.us/resource/43hw-uvdj.json')
+  res = await fetch('https://data.cityofnewyork.us/resource/43hw-uvdj.json');
 
   // get JSON data from the response body
-  data = await res.json()
+  data = await res.json();
 
   } catch (error) {
     console.error(error);
     alert("Something went wrong - Check console for more details.")
   }
 }
-
 getData();
+
+//import google maps from the script itself
+(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+  key: "AIzaSyAsIEkVG4fo0ttjfSRDYRyZ4ZCts3B9ydo",
+  v: "weekly",
+});
+
+// initMap is now async -UPDATED GOOGLE INIT FUNC
+async function initMap() {
+  // Request libraries when needed, not in the script tag.
+  const { Map } = await google.maps.importLibrary("maps");
+ 
+  // Short namespaces can be used.
+  map = new Map(document.getElementById("map"), {
+      center: { lat: 40.87490033561466, lng: -73.89453248547795 },
+      zoom: 10,
+      minZoom: 10,
+      maxZoom: 14,
+   
+  });
+  const script = document.createElement("script");
+  script.src = 'https://data.cityofnewyork.us/resource/43hw-uvdj.json';
+  document.getElementsByTagName("head")[0].appendChild(script);
+  
+}
+
+initMap();
+
+
+// Loop through the results array and place a marker for each
+// set of coordinates.
+const eqfeed_callback = function (results) {
+  for (let i = 0; i < results.features.length; i++) {
+    const coords = results.features[i].geometry.coordinates;
+    const latLng = new google.maps.LatLng(coords[1], coords[0]);
+
+    markers.push(
+      new google.maps.Marker({
+        position: latLng,
+        map: map,
+      })
+    )  
+  }
+  map.zoom = 10;
+  map.center = new google.maps.LatLng( 
+    40.802213, 
+    -73.947022);
+};
+
+window.initMap = initMap;
+window.eqfeed_callback = eqfeed_callback;
+
+
 
 //get user input zip and fetches matches - filters items found by name
 function getZip() {
@@ -49,9 +100,10 @@ function getName() {
 }
 
 // Get a reference to the results div
-const resultsDiv = document.getElementById('results');
+const resultsDiv = document.querySelector('.results-container')
 
 function showCard(data){
+
   // Create a card element
   const card = document.createElement('div');
   card.classList.add('card');
@@ -63,7 +115,7 @@ function showCard(data){
   // Build card HTML
   data.forEach(place => {
       if(place != null){
-        const card = document.createElement('li');
+        const card = document.createElement('div');
         card.classList.add('card')
 
         let placeZip = place.zip.replace(".0","");
@@ -83,45 +135,28 @@ function showCard(data){
    
 }
 
+//OUTDATED SCRIPT RUN
+// // run script that will showcase map
+// async function initMap() {
 
-// run script that will showcase map
-function initMap() {
-  map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 15,
-    center: new google.maps.LatLng(40.87490033561466, -73.89453248547771),
-    mapTypeId: "terrain",
-  });
+//   map = new google.maps.Map(document.getElementById("map"), {
+//     zoom: 15,
+//     center: new google.maps.LatLng(40.87490033561466, -73.89453248547771),
+//     mapTypeId: "terrain",
+//   });
 
-  // Create a <script> tag and set the USGS URL as the source.
-  const script = document.createElement("script");
+//   // Create a <script> tag and set the USGS URL as the source.
+//   const script = document.createElement("script");
 
-  // This example tries to uses our JSON data for the locations
-  script.src = "https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js";
-  document.getElementsByTagName("head")[0].appendChild(script);
-}
+//   // This example tries to uses our JSON data for the locations
+//   script.src = "https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js";
+//   document.getElementsByTagName("head")[0].appendChild(script);
 
-// Loop through the results array and place a marker for each
-// set of coordinates.
-const eqfeed_callback = function (results) {
-  for (let i = 0; i < results.features.length; i++) {
-    const coords = results.features[i].geometry.coordinates;
-    const latLng = new google.maps.LatLng(coords[1], coords[0]);
+// }
 
-    markers.push(
-      new google.maps.Marker({
-        position: latLng,
-        map: map,
-      })
-    )  
-  }
-  map.zoom = 10;
-  map.center = new google.maps.LatLng( 
-    40.802213, 
-    -73.947022);
-};
+// initMap();
 
-window.initMap = initMap;
-window.eqfeed_callback = eqfeed_callback;
+
 
 //search button for zipcode
 const searchButtonZip = document.querySelector("#search-zip");
@@ -203,11 +238,15 @@ const toggle = (element) => {
     return;
   }
 };
-hide(eventContainer);
+// hide(eventContainer);
 
-
-
-// //listen for click events
-// document.addEventListener('click', (event) => {
-
-// }, false);
+document.addEventListener("DOMContentLoaded", () =>{
+  const slider = document.getElementById("price");
+  const output = document.querySelector(".curr-range");
+  
+  slider.oninput = () =>{
+    let val = this.value;
+    output.innerText = `${val}`;
+    console.log(val)
+  };
+})

@@ -7,42 +7,42 @@
     <title>Search For</title>
 </head>
 <body>
+    <div class="background"></div>
+
     <header>
+        <div class="logo">GNYC</div>
         <nav>
           <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About Us</a></li>
-            <li><a href="#">Discover</a></li>
-            
+            <li><a href="#">Discover</a></li>   
           </ul>
         </nav>
-      </header>
+    </header>
 
     <div class="search-bar-section">
         <p>Discover By Name</p>
-  
-        <input type="text" placeholder="search..." id="name"/>
-        <button class="toggle" href="#map-contain" id="search-name">SEARCH</button>
+        <div class="input">
+            <input type="text" placeholder="search..." id="name"/>
+            <button class="toggle" href="#map-contain" id="search-name">SEARCH</button>
+        </div>    
     </div>  
       
     <div class="container">
-    
-        <div class="type-of-events-sections">
-          <!-- <h2>Art Galleries</h2> -->
-        </div>
-    
+
         <div class="events-section toggle-content" id="map-contain"> 
             <!-- this is where the map is!! -->
-            <div class="events-map-section" id="map"></div>
-          
+            <h3> Filter </h3>
             <div class="filter-box">
-                <h3> Filter </h3>
+              
     
                 <div class="price-filter">
-                    <h5>Price</h5>
                     <div class="price-gauge">
                         <form>
-                            <label></label>
+                        <label>
+                            <h3>Price</h3> 
+                            <p class="curr-range"></p>
+                        </label>
                             <input type="range" id="price" name="Price" min="0" max="1200">
                             <input type="submit">
                         </form>
@@ -57,19 +57,16 @@
                     </div>
     
                 </div>
+            </div>
+        </div>
+        <div class ="events-map-section" id ="map"></div>
 
-        </div>
-        <div class="results-container" id="results">
-         
-        </div>
+        <div class="results-container" id="results"></div>
+
     </div>
     
-    
-    
 </body>
-<script src="/script.js"></script>
-<script async
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsIEkVG4fo0ttjfSRDYRyZ4ZCts3B9ydo&callback=initMap">
-</script>
+<script type="module" src="/script.js"></script>
+
 
 </html>
