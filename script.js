@@ -1,7 +1,10 @@
+require('dotenv').config()
+
 let map;
 let markers = [];
 let res = null;
 let data = [];
+let sk = process.env.main_key
 
 async function getData(){
   try {
@@ -20,7 +23,7 @@ getData();
 
 //import google maps from the script itself
 (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
-  key: "AIzaSyAsIEkVG4fo0ttjfSRDYRyZ4ZCts3B9ydo",
+  key: sk,
   v: "weekly",
 });
 
@@ -35,7 +38,6 @@ async function initMap() {
       zoom: 10,
       minZoom: 10,
       maxZoom: 14,
-   
   });
   const script = document.createElement("script");
   script.src = 'https://data.cityofnewyork.us/resource/43hw-uvdj.json';
@@ -68,8 +70,6 @@ const eqfeed_callback = function (results) {
 
 window.initMap = initMap;
 window.eqfeed_callback = eqfeed_callback;
-
-
 
 //get user input zip and fetches matches - filters items found by name
 function getZip() {
